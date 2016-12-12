@@ -1,9 +1,10 @@
 package aha.oremta.jp.controller;
 
-import aha.oremta.jp.service.DoubleCalculateService;
+import aha.oremta.jp.model.User;
+import aha.oremta.jp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2016/12/11
  */
 @RestController
-public class DoubleCalculateController {
+public class UserController {
 
     @Autowired
-    private DoubleCalculateService doubleCalculateService;
+    private UserService userService;
 
-    @GetMapping(path = "api/v1/double-calculate/division")
-    public int getDoubleCalculateDivision(@RequestParam int divisor, @RequestParam int dividend){
-        return doubleCalculateService.getDoubleDivision(divisor, dividend);
+    @GetMapping(path = "api/v1/users/{userId:[0-9]{3}}")
+    public User getUser(@PathVariable String userId){
+        return userService.getUser(userId);
     }
 }

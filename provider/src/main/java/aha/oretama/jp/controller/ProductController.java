@@ -1,14 +1,14 @@
 package aha.oretama.jp.controller;
 
-import aha.oretama.jp.model.Answer;
+import aha.oretama.jp.model.Product;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Min;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author aha-oretama
@@ -16,15 +16,18 @@ import java.util.Map;
  */
 
 @RestController
-public class CalculateController {
+public class ProductController {
 
-    @GetMapping(path = "/api/v1/calculate/division", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Answer getDivsion(@RequestParam int divisor, @RequestParam int dividend) {
-        if (dividend == 0) {
-            throw new IllegalArgumentException("dividend must not be zero.");
-        }
+    List<Product> products = Arrays.asList(
+        new Product("P001", "product1", "http://product1"),
+        new Product("P002", "product2", "http://product2"),
+        new Product("P003", "product3", "http://product3"));
 
-        return new Answer(divisor / dividend, divisor % dividend);
+
+    @GetMapping(path = "/api/v1/products/{id:P[0-9]{3}}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Product getProduct(@PathVariable String id) throws IllegalArgumentException {
+        return products.stream().filter(product -> product.getId().equals(id)).findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("No product: id " + id));
     }
 
 }
