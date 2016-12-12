@@ -1,16 +1,18 @@
-package aha.oremta.jp.service;
+package aha.oretama.consumer.service;
 
-import aha.oremta.jp.model.Product;
-import aha.oremta.jp.model.User;
+import aha.oretama.consumer.model.Product;
+import aha.oretama.consumer.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -30,7 +32,7 @@ public class UserService {
 
     private List<User> USERS = Arrays.asList(
         new User("001","yamada taro","taro@gmail.com",Arrays.asList(new Product("P001"),new Product("P002")))
-        ,new User("002","yamada hanako","hanako@gmail.com",Arrays.asList(new Product("P004"),new Product("P005")))
+        ,new User("002","yamada hanako","hanako@gmail.com",Arrays.asList(new Product("P003"),new Product("P005")))
         ,new User("003","yamada junko","junko@gmail.com",Arrays.asList(new Product("X001")))
     );
 
@@ -68,12 +70,17 @@ public class UserService {
             UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl("http://localhost:" + PORT + "/api/v1/products/" + productId);
 
+            try {
+                ResponseEntity<Product> response = restTemplate
+                    .exchange(builder.build().encode().toUri(), HttpMethod.GET, new HttpEntity<>(headers), Product.class);
 
-            ResponseEntity<Product> response = restTemplate
-                .exchange(builder.build().encode().toUri(), HttpMethod.GET,
-                    new HttpEntity<>(headers), Product.class);
-
-            return response.getBody();
-        }).collect(Collectors.toList());
+                return response.getBody();
+            }catch(HttpStatusCodeException e){
+                if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)){
+                    return null;
+                }
+                throw e;
+            }
+        }).filter(product -> product != null).collect(Collectors.toList());
     }
 }

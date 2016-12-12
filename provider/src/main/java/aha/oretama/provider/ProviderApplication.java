@@ -1,12 +1,12 @@
-package aha.oremta.jp;
+package aha.oretama.provider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ConsumerApplication {
+public class ProviderApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ConsumerApplication.class, args);
+		SpringApplication.run(ProviderApplication.class, args);
 	}
 }

@@ -1,7 +1,8 @@
-package aha.oremta.jp.controller;
+package aha.oretama.consumer.controller;
 
-import aha.oremta.jp.model.User;
-import aha.oremta.jp.service.UserService;
+import aha.oretama.consumer.model.User;
+import aha.oretama.consumer.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

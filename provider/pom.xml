@@ -84,6 +84,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>Camden.SR3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<packageWithBaseClasses>aha.oretama.consumer</packageWithBaseClasses>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

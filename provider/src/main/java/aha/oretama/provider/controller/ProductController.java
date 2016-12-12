@@ -1,6 +1,6 @@
-package aha.oretama.jp.controller;
+package aha.oretama.provider.controller;
 
-import aha.oretama.jp.model.Product;
+import aha.oretama.provider.model.Product;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,6 @@ public class ProductController {
     @GetMapping(path = "/api/v1/products/{id:P[0-9]{3}}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Product getProduct(@PathVariable String id) throws IllegalArgumentException {
         return products.stream().filter(product -> product.getId().equals(id)).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("No product: id " + id));
+            .orElse(new Product());
     }
-
 }
